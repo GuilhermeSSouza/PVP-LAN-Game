@@ -13,16 +13,23 @@ public class PlayerController : MonoBehaviour {
     public KeyCode jump;
     public KeyCode fire;
 
-    private Rigidbody2D rd2d;
+
+    public GameObject snowBall;
+    public Transform throwPoint;
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask whatIsGround;
     public bool isGrounded;
 
+
+    private Rigidbody2D rd2d;
+    private Animator anim;
+
+
     // Use this for initialization
     void Start () {
         rd2d = GetComponent<Rigidbody2D>();
-
+        anim = GetComponent<Animator>();
 		
 	}
 	
@@ -47,6 +54,25 @@ public class PlayerController : MonoBehaviour {
             rd2d.velocity = new Vector2(rd2d.velocity.x, jumpForce);
 
         }
+
+        if (Input.GetKeyDown(fire)){ 
+            GameObject ballCall =  (GameObject) Instantiate(snowBall, throwPoint.position, throwPoint.rotation);
+            ballCall.transform.localScale = transform.localScale;
+            anim.SetTrigger("Throw");
+        }
+
+        if (rd2d.velocity.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (rd2d.velocity.x > 0) {
+
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+
+
+        anim.SetFloat("Speed", Mathf.Abs(rd2d.velocity.x));
+        anim.SetBool("Grounded", isGrounded);
 
 
     }
