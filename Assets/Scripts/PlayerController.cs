@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour {
     public float groundCheckRadius;
     public LayerMask whatIsGround;
     public bool isGrounded;
+    public AudioSource pThrow;
+
 
 
     private Rigidbody2D rd2d;
@@ -59,6 +61,7 @@ public class PlayerController : MonoBehaviour {
             GameObject ballCall =  (GameObject) Instantiate(snowBall, throwPoint.position, throwPoint.rotation);
             ballCall.transform.localScale = transform.localScale;
             anim.SetTrigger("Throw");
+            pThrow.Play();
         }
 
         if (rd2d.velocity.x < 0)
